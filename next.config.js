@@ -1,4 +1,10 @@
 /** @type {import('next').NextConfig} */
-module.exports = {
+const nextConfig = {
   reactStrictMode: true,
-}
+  swcMinify: true,
+  env: {
+    mapboxglAccessToken: process.env.MAPBOXGL_ACCESS_TOKEN,
+  },
+};
+
+module.exports = nextConfig;
