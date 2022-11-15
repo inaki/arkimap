@@ -32,8 +32,6 @@ const run = async () => {
       role: "USER",
       createdAt: new Date(),
       updatedAt: new Date(),
-      firstName: "John",
-      lastName: "Doe",
     },
   });
 
@@ -46,8 +44,6 @@ const run = async () => {
       role: "ADMIN",
       createdAt: new Date(),
       updatedAt: new Date(),
-      firstName: "Iñaki",
-      lastName: "Aranzadi",
     },
   });
 
