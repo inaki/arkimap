@@ -1,7 +1,8 @@
 import "../styles/globals.css";
 import "mapbox-gl/dist/mapbox-gl.css";
 import type { AppProps } from "next/app";
-import { ChakraProvider, theme } from "@chakra-ui/react";
+import { ChakraProvider } from "@chakra-ui/react";
+import theme from "../styles/theme";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

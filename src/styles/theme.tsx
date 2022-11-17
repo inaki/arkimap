@@ -1,4 +1,4 @@
-import { extendTheme } from "@chakra-ui/react";
+import { extendTheme, type ThemeConfig } from "@chakra-ui/react";
 
 // define tokens
 const tokens = {
@@ -18,12 +18,12 @@ const tokens = {
 const semanticTokens = {
   colors: {
     "bg-default": {
-      default: tokens.colors.light["bg-default"],
-      _dark: tokens.colors.dark["bg-default"],
+      default: tokens.colors.dark["bg-default"],
+      _light: tokens.colors.light["bg-default"],
     },
     "bg-btn": {
-      default: tokens.colors.light["bg-btn"],
-      _dark: tokens.colors.dark["bg-btn"],
+      default: tokens.colors.dark["bg-btn"],
+      _light: tokens.colors.light["bg-btn"],
     },
   },
 };
@@ -54,10 +54,13 @@ const components = {
   },
 };
 
+const config: ThemeConfig = {
+  initialColorMode: "dark",
+  useSystemColorMode: true,
+};
+
 const theme = extendTheme({
-  styles,
-  semanticTokens,
-  components,
+  config,
 });
 
 export default theme;

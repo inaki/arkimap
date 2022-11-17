@@ -50,10 +50,12 @@ export const AuthForm: FC<{ mode: "signin" | "signup" }> = ({ mode }) => {
       as="form"
       width="full"
       maxWidth="500px"
-      bg="white"
       borderRadius="8px"
+      justifyContent={"center"}
+      border="1px solid white"
+      margin={"auto"}
       p={8}
-      my={12}
+      my={64}
       direction="column"
     >
       {renderForm(isLoading)}

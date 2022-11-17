@@ -24,7 +24,7 @@ export default async function handle(
 
     res.setHeader(
       "Set-Cookie",
-      cookie.serialize("token", token, {
+      cookie.serialize("ARKIMAP_ACCESS_TOKEN", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV !== "development",
         sameSite: "lax",
