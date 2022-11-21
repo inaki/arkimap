@@ -57,6 +57,7 @@ model City {
   updatedAt DateTime  @updatedAt
   name      String
   country   String
+  shortName String   @unique
   latitude  Float
   longitude Float
   Project   Project[]

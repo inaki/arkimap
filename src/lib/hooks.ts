@@ -20,3 +20,14 @@ export function useProjects(city) {
     isError: error,
   };
 }
+
+export function useCities() {
+  const { data, error } = useSWR("/cities", fetcher);
+
+  return {
+    cities: data,
+    isLoading: !error && !data,
+    isError: error,
+  };
+}
+
