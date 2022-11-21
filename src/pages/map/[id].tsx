@@ -1,8 +1,9 @@
-import React, { useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import Map, { Source, Layer, Marker, Popup } from "react-map-gl";
 import { geojson } from "./data/cdmx";
 import Pin from "./components/pin";
+import prisma from "../../lib/prisma";
 
 const layerStyle = {
   id: "point",
@@ -15,11 +16,15 @@ const layerStyle = {
 
 const DetailsPage = () => {
   const [popupInfo, setPopupInfo] = useState(null);
+  const router = useRouter();
+  const { latitude, longitude } = router.query;
   const [viewport, setViewport] = useState({
-    latitude: 19.4326296,
-    longitude: -99.1331785,
-    zoom: 11,
+    latitude: latitude,
+    longitude: longitude,
+    zoom: 12,
   });
+
+  console.log(router.query);
 
   const pins = useMemo(
     () =>
@@ -42,9 +47,6 @@ const DetailsPage = () => {
       )),
     []
   );
-
-  const router = useRouter();
-  const { id } = router.query;
 
   return (
     <div className="container">

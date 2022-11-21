@@ -15,6 +15,7 @@ const run = async () => {
           id: city.id,
           name: city.name,
           country: city.country,
+          shortName: city.shortName,
           latitude: city.latitude,
           longitude: city.longitude,
         },
