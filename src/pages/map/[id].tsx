@@ -1,9 +1,8 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useRouter } from "next/router";
-import Map, { Source, Layer, Marker, Popup } from "react-map-gl";
-import { geojson } from "./data/cdmx";
+import Map, { Marker, Popup } from "react-map-gl";
 import Pin from "./components/pin";
-import prisma from "../../lib/prisma";
+import { useProjects } from "../../lib/hooks";
 
 const layerStyle = {
   id: "point",
@@ -18,42 +17,37 @@ const DetailsPage = () => {
   const [popupInfo, setPopupInfo] = useState(null);
   const router = useRouter();
   const { latitude, longitude } = router.query;
+  const { projects = [] } = useProjects();
   const [viewport, setViewport] = useState({
-    latitude: latitude,
-    longitude: longitude,
+    latitude: latitude || 0,
+    longitude: longitude || 0,
     zoom: 12,
   });
 
-  console.log(router.query);
-
-  const pins = useMemo(
-    () =>
-      geojson.features.map((place, index) => (
-        <Marker
-          key={`marker-${index}`}
-          longitude={place.geometry.coordinates[0]}
-          latitude={place.geometry.coordinates[1]}
-          anchor="bottom"
-          onClick={(e) => {
-            // If we let the click event propagates to the map, it will immediately close the popup
-            // with `closeOnClick: true`
-            e.originalEvent.stopPropagation();
-            console.log(place);
-            setPopupInfo(place);
-          }}
-        >
-          <Pin />
-        </Marker>
-      )),
-    []
-  );
+  const pins = projects?.map((place) => (
+    <Marker
+      key={place.id}
+      longitude={place.longitude}
+      latitude={place.latitude}
+      anchor="bottom"
+      onClick={(e) => {
+        // If we let the click event propagates to the map, it will immediately close the popup
+        // with `closeOnClick: true`
+        e.originalEvent.stopPropagation();
+        console.log(place);
+        setPopupInfo(place);
+      }}
+    >
+      <Pin />
+    </Marker>
+  ));
 
   return (
     <div className="container">
       <Map
         mapStyle={"mapbox://styles/aranzadi/cl9ou4cyo000i17pggpo9dk9n"}
         mapboxAccessToken={process.env.mapboxglAccessToken}
-        onMove={(evt) => setViewport(evt.viewState)}
+        onMove={(e) => setViewport(e.viewState)}
         style={{ width: "100vw", height: "100vh" }}
         {...viewport}
       >

@@ -11,8 +11,8 @@ export function useUser() {
   };
 }
 
-export function useProjects(city) {
-  const { data, error } = useSWR(`/projects/${city}`, fetcher);
+export function useProjects() {
+  const { data, error } = useSWR(`/projects`, fetcher);
 
   return {
     projects: data,
@@ -30,4 +30,3 @@ export function useCities() {
     isError: error,
   };
 }
-

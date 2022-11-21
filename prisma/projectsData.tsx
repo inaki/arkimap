@@ -26,4 +26,16 @@ export const projectsData: {
       "Casa Luis Barragán is a house designed by Mexican architect Luis Barragán in Mexico City, Mexico.",
     year: 1948,
   },
+  {
+    id: "0a7c7966-64ba-4093-bca4-63a700747063",
+    name: "Casa Gilardi",
+    longitude: -99.18621074386363,
+    latitude: 19.414352793601072,
+    architectId: "7777b481-f78b-4c56-8d67-04d6213943e4",
+    cityId: "01eccf1a-25b6-4dde-9cea-ba4fdfabc620",
+    published: true,
+    description:
+      "Casa Gilardi is a house designed by Mexican architect Luis Barragán in Mexico City, Mexico.",
+    year: 1950,
+  },
 ];

@@ -6,10 +6,6 @@ export default async function handle(
   res: NextApiResponse
 ) {
   const { city } = req.body;
-  const projects = await prisma.project.findMany({
-    where: {
-      city,
-    },
-  });
+  const projects = await prisma.project.findMany({});
   res.status(200).json(projects);
 }

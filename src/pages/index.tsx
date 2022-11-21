@@ -7,6 +7,7 @@ import { useCities } from "../lib/hooks";
 
 const Home: NextPage = () => {
   const { cities, isLoading } = useCities();
+
   return (
     <div className="flex min-h-screen flex-col items-center justify-center py-2">
       <Head>
@@ -24,7 +25,7 @@ const Home: NextPage = () => {
               cities.map((city) => (
                 <Link
                   key={city.id}
-                  href={`/map/${city.shortName}?longitude=${city.longitude}&latitude=${city.latitude}`}
+                  href={`/map/${city.shortName}?cityId=${city.id}&longitude=${city.longitude}&latitude=${city.latitude}`}
                 >
                   <ListItem>{city.name}</ListItem>
                 </Link>
