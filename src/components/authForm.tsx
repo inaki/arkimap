@@ -8,12 +8,20 @@ export const AuthForm: FC<{ mode: "signin" | "signup" }> = ({ mode }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(false);
   const router = useRouter();
 
-  const handleSubmit = () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     setIsLoading(true);
-    auth(mode, { email, password });
-    // router.push("/");
+    let user = auth(mode, { email, password });
+    user.then((res) => {
+      if (res.auth === false) {
+        setError(true);
+      } else {
+        router.push("/admin");
+      }
+    });
     setIsLoading(false);
   };
 
@@ -37,6 +45,11 @@ export const AuthForm: FC<{ mode: "signin" | "signup" }> = ({ mode }) => {
               type="password"
             />
           </Box>
+          {error ? (
+            <Box mt={4} color="red.500">
+              Invalid email or password
+            </Box>
+          ) : null}
           <Button onClick={handleSubmit} mt={4} colorScheme="teal">
             {mode === "signin" ? "Sign in" : "Sign up"}
           </Button>
