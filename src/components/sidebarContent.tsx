@@ -6,9 +6,7 @@ import {
   Text,
   CloseButton,
 } from "@chakra-ui/react";
-
 import { FiHome, FiUser, FiFlag, FiSettings } from "react-icons/fi";
-
 import { IconType } from "react-icons";
 import NavItem from "./navItem";
 
@@ -22,11 +20,11 @@ interface LinkItemProps {
 }
 
 const LinkItems: Array<LinkItemProps> = [
-  { name: "Home", icon: FiHome },
-  { name: "Architects", icon: FiUser },
-  { name: "Projects", icon: FiHome },
-  { name: "Countries", icon: FiFlag },
-  { name: "Settings", icon: FiSettings },
+  { name: "home", icon: FiHome },
+  { name: "architects", icon: FiUser },
+  { name: "projects", icon: FiHome },
+  { name: "cities", icon: FiFlag },
+  { name: "settings", icon: FiSettings },
 ];
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
@@ -48,7 +46,16 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon}>
+        <NavItem
+          key={link.name}
+          href={{
+            pathname: "/admin",
+            query: {
+              section: link.name,
+            },
+          }}
+          icon={link.icon}
+        >
           {link.name}
         </NavItem>
       ))}
