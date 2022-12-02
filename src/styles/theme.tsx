@@ -32,7 +32,7 @@ const semanticTokens = {
 const styles = {
   global: {
     body: {
-      background: "bg-default",
+      width: "50vw",
     },
   },
 };
