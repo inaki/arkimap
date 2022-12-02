@@ -17,6 +17,7 @@ type ModalWrapperProps = {
   children: React.ReactNode;
   isOpen: boolean;
   title?: string;
+  buttonTitle?: string;
   disabled?: boolean;
   finalFocusRef: React.RefObject<any>;
   onSubmit: MouseEventHandler<HTMLButtonElement>;
@@ -29,6 +30,7 @@ function ModalWrapper({
   onClose,
   disabled = false,
   title = "",
+  buttonTitle = "Add",
   children,
   finalFocusRef,
   ...props
@@ -69,7 +71,7 @@ function ModalWrapper({
               onClick={handleSubmit}
               type="submit"
             >
-              Add
+              {buttonTitle}
             </Button>
           </ModalFooter>
         </ModalContent>

@@ -17,6 +17,7 @@ import {
   FormControl,
   FormLabel,
   Switch,
+  Button,
 } from "@chakra-ui/react";
 import DatePicker from "react-datepicker";
 import { useRef, useState } from "react";
@@ -28,16 +29,13 @@ type ArchitectType = {
   firstName: string;
   lastName: string;
   country: string;
-};
-
-type ArchitectInputProps = {
-  firstName: string;
-  lastName: string;
-  country: string;
+  published: boolean;
+  dob: Date | null;
   gender: string;
   biography: string;
-  published: boolean;
 };
+
+type ArchitectInputProps = ExcludeTypes<keyof ArchitectType, "id">;
 
 const ArchitectDefaultInputs = {
   firstName: "",
@@ -53,10 +51,18 @@ type ArchitectProps = {
   architects: ArchitectType[];
 };
 
+const inputsData = [
+  { name: "firstName", label: "First Name" },
+  { name: "lastName", label: "Last Name" },
+  { name: "country", label: "Country" },
+  { name: "biography", label: "Biography" },
+];
+
 const Architects = ({ architects }: ArchitectProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isValid, setValid] = useState(false);
   const [startDate, setStartDate] = useState(null);
+  const [buttonTitle, setButtonTitle] = useState("Add Architect");
   const [inputs, setInputs] = useState<ArchitectInputProps>(
     ArchitectDefaultInputs
   );
@@ -106,7 +112,6 @@ const Architects = ({ architects }: ArchitectProps) => {
   };
 
   const handleDateChange = (date: Date) => {
-    console.log(date);
     setStartDate(date);
     setInputs((inputs) => {
       return {
@@ -118,7 +123,27 @@ const Architects = ({ architects }: ArchitectProps) => {
 
   const handleClose = () => {
     setInputs(ArchitectDefaultInputs);
+    setButtonTitle("Add Architect");
+    setStartDate(null);
     onClose();
+  };
+
+  const handleEditArchitect = (architect: ArchitectType) => {
+    setStartDate(architect.dob);
+    setButtonTitle("Edit Architect");
+    setInputs((inputs) => {
+      return {
+        ...inputs,
+        firstName: architect.firstName,
+        lastName: architect.lastName,
+        country: architect.country,
+        biography: architect.biography,
+        published: architect.published,
+        gender: architect.gender,
+        dob: architect.dob,
+      };
+    });
+    onOpen();
   };
 
   return (
@@ -141,50 +166,29 @@ const Architects = ({ architects }: ArchitectProps) => {
         onClose={handleClose}
         onSubmit={handleSubmit}
         title="Add Architect"
+        buttonTitle={buttonTitle}
         disabled={!isValid}
       >
         <FormControl alignItems="center" mb={6}>
-          <FormLabel htmlFor="firstName" mb={2}>
-            First Name
-          </FormLabel>
-          <Input
-            mb={4}
-            required
-            minLength={3}
-            name="firstName"
-            id="firstName"
-            value={inputs.firstName || ""}
-            onChange={handleInputChange}
-            placeholder="First Name"
-          />
-
-          <FormLabel htmlFor="lastName" mb={2}>
-            Last Name
-          </FormLabel>
-          <Input
-            mb={4}
-            required
-            minLength={3}
-            name="lastName"
-            id="lastName"
-            value={inputs.lastName || ""}
-            onChange={handleInputChange}
-            placeholder="Last Name"
-          />
-
-          <FormLabel htmlFor="country" mb={2}>
-            Country
-          </FormLabel>
-          <Input
-            mb={4}
-            required
-            minLength={3}
-            name="country"
-            id="country"
-            value={inputs.country || ""}
-            onChange={handleInputChange}
-            placeholder="Country"
-          />
+          {inputsData.map((input) => {
+            return (
+              <Box key={input.name}>
+                <FormLabel htmlFor="firstName" mb={2}>
+                  {input.label}
+                </FormLabel>
+                <Input
+                  mb={4}
+                  required
+                  minLength={3}
+                  name={input.name}
+                  id={input.name}
+                  value={inputs[input.name] || ""}
+                  onChange={handleInputChange}
+                  placeholder={input.label}
+                />
+              </Box>
+            );
+          })}
 
           <FormLabel htmlFor="gender" mb={2}>
             Gender
@@ -193,11 +197,12 @@ const Architects = ({ architects }: ArchitectProps) => {
             name="gender"
             id="gender"
             placeholder="Select gender"
+            value={inputs.gender || ""}
             onChange={handleInputChange}
             mb={4}
           >
-            <option value="option1">female</option>
-            <option value="option2">male</option>
+            <option value="female">female</option>
+            <option value="male">male</option>
           </Select>
 
           <FormLabel htmlFor="biography" mb={2}>
@@ -245,6 +250,7 @@ const Architects = ({ architects }: ArchitectProps) => {
             <Tr>
               <Th>Name</Th>
               <Th>Country</Th>
+              <Th></Th>
             </Tr>
           </Thead>
           <Tbody>
@@ -254,6 +260,14 @@ const Architects = ({ architects }: ArchitectProps) => {
                   {architect.firstName} {architect.lastName}
                 </Td>
                 <Td>{architect.country}</Td>
+                <Td>
+                  <Button
+                    onClick={() => handleEditArchitect(architect)}
+                    variant="ghost"
+                  >
+                    Edit
+                  </Button>
+                </Td>
               </Tr>
             ))}
           </Tbody>

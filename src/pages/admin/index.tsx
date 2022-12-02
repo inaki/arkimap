@@ -33,6 +33,10 @@ export async function getStaticProps() {
       firstName: true,
       lastName: true,
       country: true,
+      gender: true,
+      biography: true,
+      published: true,
+      dob: true,
     },
   });
 
