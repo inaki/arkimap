@@ -16,9 +16,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  console.log(req.body);
   const architect = prisma.architect.upsert({
     where: {
-      id: req.body.id,
+      id: `${req.body.id}`,
     },
     update: {
       firstName: req.body.firstName,
@@ -27,7 +28,7 @@ export default async function handler(
       country: req.body.country,
       biography: req.body.biography,
       published: req.body.published,
-      dob: req.body.dob,
+      dob: new Date(),
     },
     create: {
       firstName: req.body.firstName,
@@ -36,7 +37,7 @@ export default async function handler(
       country: req.body.country,
       biography: req.body.biography,
       published: req.body.published,
-      dob: req.body.dob,
+      dob: new Date(),
     },
   });
 

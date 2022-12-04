@@ -20,7 +20,7 @@ import {
   Button,
 } from "@chakra-ui/react";
 import DatePicker from "react-datepicker";
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { FiPlus } from "react-icons/fi";
 import ModalWrapper from "../../components/shared/modal";
 
@@ -35,7 +35,7 @@ type ArchitectType = {
   biography: string;
 };
 
-type ArchitectInputProps = ExcludeTypes<keyof ArchitectType, "id">;
+type ArchitectInputProps = ExcludeTypes<ArchitectType, "id">;
 
 const ArchitectDefaultInputs = {
   firstName: "",
@@ -55,7 +55,6 @@ const inputsData = [
   { name: "firstName", label: "First Name" },
   { name: "lastName", label: "Last Name" },
   { name: "country", label: "Country" },
-  { name: "biography", label: "Biography" },
 ];
 
 const Architects = ({ architects }: ArchitectProps) => {
@@ -68,10 +67,10 @@ const Architects = ({ architects }: ArchitectProps) => {
   );
   const finalRef = useRef(null);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLInputElement>) => {
     e.preventDefault();
     const JSONdata = JSON.stringify(inputs);
-    const endpoint = "/api/addArchitect";
+    const endpoint = "/api/architect";
     const res = await fetch(endpoint, {
       method: "POST",
       headers: {
@@ -173,7 +172,7 @@ const Architects = ({ architects }: ArchitectProps) => {
           {inputsData.map((input) => {
             return (
               <Box key={input.name}>
-                <FormLabel htmlFor="firstName" mb={2}>
+                <FormLabel htmlFor={input.name} mb={2}>
                   {input.label}
                 </FormLabel>
                 <Input
