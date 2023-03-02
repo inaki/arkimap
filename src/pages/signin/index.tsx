@@ -27,7 +27,6 @@ function Page() {
   };
   return (
     <Flex
-      as="form"
       width="full"
       maxWidth="500px"
       borderRadius="8px"

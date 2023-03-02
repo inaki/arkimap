@@ -9,6 +9,11 @@ import {
 import { FiHome, FiUser, FiFlag, FiSettings } from "react-icons/fi";
 import { IconType } from "react-icons";
 import NavItem from "./navItem";
+import { useContext, useState } from "react";
+import {
+  useNavigationContext,
+  NavigationContext,
+} from "@/context/NavigationContext";
 
 interface SidebarProps extends BoxProps {
   onClose: () => void;
@@ -28,6 +33,17 @@ const LinkItems: Array<LinkItemProps> = [
 ];
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
+  const { state, dispatch } = useNavigationContext();
+
+  console.log(state.activeSection);
+
+  const handleNavigationContext = (section: string) => {
+    dispatch({
+      type: "updateSection",
+      payload: section,
+    });
+  };
+
   return (
     <Box
       transition="3s ease"
@@ -47,6 +63,8 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       </Flex>
       {LinkItems.map((link) => (
         <NavItem
+          color={state.activeSection == link.name ? "cyan.400" : "gray.500"}
+          onClick={() => handleNavigationContext(link.name)}
           key={link.name}
           href={{
             pathname: "/admin",
