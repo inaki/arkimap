@@ -1,11 +1,13 @@
 "use client";
-import React, { FormEvent } from "react";
+import React, { FormEvent, useState } from "react";
 import signIn from "@/firebase/signin";
 import { useRouter } from "next/navigation";
+import { Box, Flex, Input, Button } from "@chakra-ui/react";
 
 function Page() {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(false);
   const router = useRouter();
 
   const handleForm = async (
@@ -24,36 +26,43 @@ function Page() {
     return router.push("/admin");
   };
   return (
-    <div className="wrapper">
-      <div className="form-wrapper">
-        <h1 className="mt-60 mb-30">Sign up</h1>
-        <form onSubmit={handleForm} className="form">
-          <label htmlFor="email">
-            <p>Email</p>
-            <input
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              type="email"
-              name="email"
-              id="email"
-              placeholder="example@mail.com"
-            />
-          </label>
-          <label htmlFor="password">
-            <p>Password</p>
-            <input
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              type="password"
-              name="password"
-              id="password"
-              placeholder="password"
-            />
-          </label>
-          <button type="submit">Sign In</button>
-        </form>
-      </div>
-    </div>
+    <Flex
+      as="form"
+      width="full"
+      maxWidth="500px"
+      borderRadius="8px"
+      justifyContent={"center"}
+      border="1px solid white"
+      margin={"auto"}
+      p={8}
+      my={64}
+      direction="column"
+    >
+      <form onSubmit={handleForm} className="form">
+        <Box mt={4}>
+          <Input
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+            type="email"
+          />
+        </Box>
+        <Box mt={4}>
+          <Input
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+            type="password"
+          />
+        </Box>
+        {error ? (
+          <Box mt={4} color="red.500">
+            Invalid email or password
+          </Box>
+        ) : null}
+        <Button type="submit" mt={4} colorScheme="teal">
+          Singin
+        </Button>
+      </form>
+    </Flex>
   );
 }
 

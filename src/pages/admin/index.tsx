@@ -3,6 +3,7 @@ import React from "react";
 import { useAuthContext } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { User } from "firebase/auth";
+import SidebarWithHeader from "@/components/sidebarWithHeader";
 
 type Props = {
   user: User | null;
@@ -20,5 +21,9 @@ function Page({ user }: Props) {
 
 export default function WrappedPage() {
   const { user } = useAuthContext();
-  return <Page user={user} />;
+  return (
+    <SidebarWithHeader>
+      <Page user={user} />
+    </SidebarWithHeader>
+  );
 }
