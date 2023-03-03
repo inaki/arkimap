@@ -41,7 +41,7 @@ function Page({ user }: Props) {
       setData(data);
       console.log(data);
     });
-  }, [user]);
+  }, [user, router]);
 
   return (
     <Grid templateColumns="repeat(3, 1fr)" gap={6}>
