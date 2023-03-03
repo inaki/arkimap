@@ -40,7 +40,7 @@ export const NavigationContextProvider = ({
   const [state, dispatch] = useReducer(reducer, initialState);
 
   return (
-    <NavigationContext.Provider value={{ state, dispatch }}>
+    <NavigationContext.Provider value={initialState}>
       {children}
     </NavigationContext.Provider>
   );
