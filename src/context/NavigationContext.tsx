@@ -37,7 +37,7 @@ export const NavigationContextProvider = ({
 }: {
   children: ReactNode;
 }) => {
-  const [state, dispatch] = useReducer(reducer, initialState.state);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   return (
     <NavigationContext.Provider value={{ state, dispatch }}>
