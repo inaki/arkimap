@@ -17,9 +17,8 @@ import {
   ModalFooter,
   Button,
 } from "@chakra-ui/react";
-import { BsArrowUpRight, BsHeartFill, BsHeart } from "react-icons/bs";
 
-export default function ArchitectDetail({
+export default function ProjectDetail({
   img,
   title,
   description,

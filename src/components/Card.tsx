@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import {
   Box,
   Heading,
@@ -10,18 +10,23 @@ import {
   HStack,
 } from "@chakra-ui/react";
 import { BsArrowUpRight, BsHeartFill, BsHeart } from "react-icons/bs";
-import ArchitectDetail from "./ArchitectDetails";
+
+type DataType = {
+  title: string;
+  country: string;
+  img: string;
+  description?: string;
+  biography?: string;
+  dob?: number;
+  tags?: string[];
+};
 
 export default function PostWithLike({
-  img,
-  title,
-  description,
-  tags,
+  data,
+  children,
 }: {
-  img: string;
-  title: string;
-  description: string;
-  tags: string[];
+  data: DataType;
+  children: ReactNode;
 }) {
   const [liked, setLiked] = useState(false);
   const [detailsOpen, setDetailsOpen] = useState(false);
@@ -41,7 +46,7 @@ export default function PostWithLike({
       >
         <Box h={"200px"} borderBottom={"1px"} borderColor="black">
           <Img
-            src={img}
+            src={data.img}
             roundedTop={"sm"}
             objectFit="cover"
             h="full"
@@ -50,8 +55,8 @@ export default function PostWithLike({
           />
         </Box>
         <Box p={4}>
-          {tags && tags.length > 0
-            ? tags.map((tag: string, index: number) => (
+          {data.tags && data.tags.length > 0
+            ? data.tags.map((tag: string, index: number) => (
                 <Box
                   key={tag + index}
                   bg="black"
@@ -69,10 +74,11 @@ export default function PostWithLike({
             : ""}
 
           <Heading color={"black"} fontSize={"2xl"} noOfLines={1}>
-            {title}
+            {data.title}
           </Heading>
           <Text color={"gray.500"} noOfLines={3}>
-            {description}
+            {(data.description && data.description) ||
+              (data.biography && data.biography)}
           </Text>
         </Box>
         <HStack borderTop={"1px"} color="black">
@@ -87,14 +93,7 @@ export default function PostWithLike({
           >
             <Text fontSize={"md"} fontWeight={"semibold"}>
               View more
-              <ArchitectDetail
-                img={img}
-                title={title}
-                description={description}
-                tags={tags}
-                isOpen={detailsOpen}
-                handleClose={() => setDetailsOpen(false)}
-              />
+              {children}
             </Text>
             <BsArrowUpRight />
           </Flex>

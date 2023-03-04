@@ -1,18 +1,21 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuthContext } from "@/context/AuthContext";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import { User } from "firebase/auth";
 import SidebarWithHeader from "@/components/sidebarWithHeader";
-import {
-  getFirestore,
-  collection,
-  getDocs,
-  QuerySnapshot,
-} from "firebase/firestore";
+import { collection, getDocs, QuerySnapshot } from "firebase/firestore";
 import { db } from "@/firebase/config";
-import Card from "@/components/Card";
 import { Grid } from "@chakra-ui/react";
+import ArchitectsView from "@/sections/architects/ArchitectsView";
+import ProjectView from "@/sections/projects/ProjectsView";
+
+type ItemType = {
+  name: string;
+  country: string;
+  img: string;
+  biography: string;
+};
 
 const fetchFirestoreData = async (
   collectionName: string
@@ -32,39 +35,33 @@ type Props = {
 };
 
 function Page({ user }: Props) {
-  const [data, setData] = React.useState<any>([]);
+  const [data, setData] = useState<any>([]);
   const router = useRouter();
+  const { section } = router.query;
 
   useEffect(() => {
-    if (user == null) router.push("/");
-    getData("architects").then((data) => {
+    getData(section as string).then((data) => {
       setData(data);
       console.log(data);
     });
-  }, [user, router]);
+  }, [section]);
+
+  const renderSection = (sectionActive: string) => {
+    switch (sectionActive) {
+      case "architects":
+        return <ArchitectsView />;
+      case "projects":
+        return <ProjectView />;
+      case "cities":
+        return <div>Cities</div>;
+      default:
+        return <div>Home</div>;
+    }
+  };
 
   return (
     <Grid templateColumns="repeat(3, 1fr)" gap={6}>
-      {data &&
-        data.map(
-          (
-            item: {
-              name: string;
-              country: string;
-              img: string;
-              biography: string;
-            },
-            index: number
-          ) => (
-            <Card
-              img={item.img}
-              title={`${item.name}`}
-              description={item.biography}
-              tags={[item.country]}
-              key={index + item.name + item.country}
-            />
-          )
-        )}
+      {renderSection((section as string) || "home")}
     </Grid>
   );
 }
