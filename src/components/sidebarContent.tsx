@@ -9,6 +9,7 @@ import {
 import { FiHome, FiUser, FiFlag, FiSettings } from "react-icons/fi";
 import { IconType } from "react-icons";
 import NavItem from "./navItem";
+import { useState } from "react";
 
 interface SidebarProps extends BoxProps {
   onClose: () => void;
@@ -28,6 +29,7 @@ const LinkItems: Array<LinkItemProps> = [
 ];
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
+  const [activeSection, setActiveSection] = useState("home");
   return (
     <Box
       transition="3s ease"
@@ -47,9 +49,11 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       </Flex>
       {LinkItems.map((link) => (
         <NavItem
+          color={activeSection === link.name ? "cyan.400" : "gray.500"}
+          onClick={() => setActiveSection(link.name)}
           key={link.name}
           href={{
-            pathname: "/admin",
+            pathname: "/main",
             query: {
               section: link.name,
             },
